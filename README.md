@@ -1,20 +1,28 @@
-# calFeed.js
-
-calFeed is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.
+eventList is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.
 
 ## Features
 
 * Events are marked up as [schema.org](http://schema.org) events, including ISO 8601 timestamps and whatnot
-* calFeed generates feed links below the events list
+* eventList generates feed links below the events list
 * The list is completely unstyled (feature not a bug)
 
 ## Easy peasy
 
-Getting calFeed up and running is really easy.
+Getting eventList up and running is really easy.
 
 1. Include the script in your head (you’ll need jQuery too of course.
 2. Add a div with the id="eventList"
 3. Run the function eventList();, passing in the ID for the publicly available Google calendar you would like to display.
+
+```
+<div id="eventList"/>
+
+<script>
+	$(document).ready(function(){
+	eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
+	});
+</script>
+```
 
 ### Credits
 
