@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>calFeed.js</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="js/calFeed.js"></script>
+</head>
+<body>
+	<h1>calFeed.js Demo</h1>
+	<p>calFeed is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.</p>
+	<h2>Easy peasy</h2>
+	<p>Getting calFeed up and running is really easy.</p>
+	<ul>
+		<li>Include the script in your head (you&rsquo;ll need jQuery too of course.</li>
+		<li>Add a div with the id="eventList"</li>
+		<li>Run the function <strong>eventList();</strong>, passing in 
+			<a href="https://support.google.com/calendar/answer/63962?hl=en">the ID for the publicly available Google calendar</a> 
+			you would like to display.</li>	
+	</ul>
+<pre>
+&lt;div id="eventList"/&gt;
+
+&lt;script&gt;
+	$(document).ready(function(){
+	eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
+	});
+&lt;/script&gt;
+</pre>
+
+<input id="testID" type="text" placeholder="Try a Google calendar ID in here">
+
+<div id="eventList"/>
+	<script>
+		$('#testID').on("change keyup paste", function(){
+			 	
+		 	var testID = $(this).val();
+			eventList(testID);
+
+		});
+	</script>
+</body>
+</html>
