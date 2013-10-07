@@ -1,4 +1,4 @@
-// calFeed.js is a simple tool for displaying an events list based on a Google Calender id
+// eventList.js is a simple tool for displaying an events list based on a Google Calender id
 // Handmade with love by Marc Heatley || http://github.com/TheHeat || @marcheatley
 // Inspired by http://kevin.deldycke.com/2012/07/displaying-upcoming-events-google-calendar-javascript/
 
