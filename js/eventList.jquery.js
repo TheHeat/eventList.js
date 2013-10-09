@@ -143,7 +143,7 @@ function eventList(calID){
     // Event title and description 
 
     var event_title  = '<h3 itemprop="name">' + item.title.$t + '</h3>';
-    var event_content = '<p>' + item.content.$t + '</p>';
+    var event_content = '<div class="event-description" itemprop="description">' + item.content.$t.autoLink() + '</div>';
 
     // Render the event
     $(".events-list li").last().before(
@@ -151,8 +151,10 @@ function eventList(calID){
         '<meta itemprop="startDate" content="' + dISO  + '">' +
         '<time datetime="' + dISO + '">' + dString + '</time>' +
         event_title + 
-        event_content.autoLink() +
-        tString + "</li>"
+        event_content +
+        tString + 
+        venueLink +
+        "</li>"
     );
 
     });
