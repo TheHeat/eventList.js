@@ -80,24 +80,49 @@ function formatTime(hour, minutes){
 // Thanks to http://sajjadhossain.com/2008/10/31/javascript-string-trimming-and-padding/
 function pad(n){return n<10 ? '0'+n : n}
 
-function eventList(calID){
+var eventList = function (calID, args){
+
+  //Set some default paremeters. All of these can be overridden by passing an object with one or more of these properties
+  var defaults = {
+    eventListId: 'eventList',
+    orderby: 'starttime', 
+    sortorder: 'ascending', 
+    singleevents: true, 
+    "max-results": 12, 
+    futureevents: true, 
+    alt: 'json',
+  }
+
+  //Combine the parameters args and defaults
+  var params = $.extend(true, defaults, args);
+
+  //Delete parameters specific to this function in order to compose a query string
+  var queryStringParams = $.extend(true, {}, params);
+  delete queryStringParams.eventListId;
+
+  //Serialize the parameters into a query string
+  var queryString = decodeURIComponent($.param(queryStringParams));
+
+  //Check if our container element exists. If not, exit the function
+  if(($('#' + params.eventListId)).length == 0){
+    return;
+  }
 
   // Create the container elements for the list and feed links  
-  $('#eventList').html('<ol class="events-list"><li>Nothing to see here!</li></ol><div class="feed-links"></div>');
+  $('#' + params.eventListId).html('<ol class="events-list"><li>Nothing to see here!</li></ol><div class="feed-links"></div>');
 
   // All the feed strings
-  var calJSON = 'http://www.google.com/calendar/feeds/' + calID + "/public/full?orderby=starttime&sortorder=ascending&futureevents=true&alt=json";
+  var calJSON = 'http://www.google.com/calendar/feeds/' + calID + "/public/full?" + queryString;
   var calGoog = 'http://www.google.com/calendar/embed?src=' + calID;
-  var calRSS =  'http://www.google.com/calendar/feeds/' + calID + '/public/full?orderby=starttime&sortorder=ascending&futureevents=true';
+  var calRSS =  'http://www.google.com/calendar/feeds/' + calID + '/public/full?' + queryString;
   var calICal = 'http://www.google.com/calendar/ical/' + calID + '/public/basic.ics';
   
-
   // Get list of upcoming iCal events formatted in JSON
   $.getJSON( calJSON, function(data){
 
   // Parse and render each event
   $.each(data.feed.entry, function(i, item){
-        
+
     if(i == 0) {
       $(".events-list li").first().hide();
     };
