@@ -12,7 +12,8 @@
 	<h2>Easy peasy</h2>
 	<p>Getting calFeed up and running is really easy.</p>
 	<ul>
-		<li>Include the script in your head (you&rsquo;ll need jQuery too of course.</li>
+		<li><a href="https://support.google.com/calendar/answer/63962?hl=en">Find your calendar ID in the calendar settings page.</a> The calendar <strong>must</strong> be publicly available.</li>
+		<li>Include the script in your head (you&rsquo;ll need jQuery too obvs).</li>
 		<li>Add a div with the id="eventList"</li>
 		<li>Run the function <strong>eventList();</strong>, passing in 
 			<a href="https://support.google.com/calendar/answer/63962?hl=en">the ID for the publicly available Google calendar</a> 
@@ -28,7 +29,10 @@
 &lt;/script&gt;
 </pre>
 
-<input id="testID" type="text" placeholder="Try a Google calendar ID in here">
+<h2>Give it a whirl!</h2>
+<p>Paste your calendar ID into the input below. If you haven't got one (or the energy to go get it), try this one <code>startupdigest.com_9ij8urq2vv011iqfopm652eeqo@group.calendar.google.com</code></p>
+<label for="testID">GCal ID</label>
+<input id="testID" type="text" placeholder="Paste your Google calendar ID in here">
 
 <div id="eventList"/>
 	<script>
