@@ -1,47 +1,71 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>calFeed.js</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="js/eventList.jquery.js"></script>
-</head>
-<body>
-	<h1>calFeed.js Demo</h1>
-	<p>calFeed is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.</p>
-	<h2>Easy peasy</h2>
-	<p>Getting calFeed up and running is really easy.</p>
-	<ul>
-		<li><a href="https://support.google.com/calendar/answer/63962?hl=en">Find your calendar ID in the calendar settings page.</a> The calendar <strong>must</strong> be publicly available.</li>
-		<li>Include the script in your head (you&rsquo;ll need jQuery too obvs).</li>
-		<li>Add a div with the id="eventList"</li>
-		<li>Run the function <strong>eventList();</strong>, passing in 
-			<a href="https://support.google.com/calendar/answer/63962?hl=en">the ID for the publicly available Google calendar</a> 
-			you would like to display.</li>	
-	</ul>
+	<head>
+		<meta charset="UTF-8">
+		<title>calFeed.js</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="js/event-list.jquery.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+		<style>
+			body{
+				padding:1em;
+			}
+			pre{
+				padding:1em;
+				background-color: #1B2662;
+				color:#E1F920;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>calFeed.js Demo</h1>
+		<p>calFeed is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.</p>
+		<h2>Easy peasy</h2>
+		<p>Getting calFeed up and running is really easy.</p>
+		<ul>
+			<li>
+				<a href="https://support.google.com/calendar/answer/63962?hl=en">Find your calendar ID in the calendar settings page.</a> The calendar <strong>must</strong> be publicly available.
+			</li>
+			<li><a href="https://console.developers.google.com/flows/enableapi?apiid=calendar">Generate a Google Calender API key</a></li>
+			<li>Include the script in your head (you&rsquo;ll need jQuery too obvs).</li>
+			<li>Extend the target object <code>.eventList();</code>, passing in
+				<a href="https://support.google.com/calendar/answer/63962?hl=en">the ID for a publicly available Google calendar</a> you would like to display.</li>
+			</ul>
 <pre>
-&lt;div id="eventList"/&gt;
-
+&lt;div id="target-div"/&gt;
 &lt;script&gt;
 	$(document).ready(function(){
-	eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
+
+		args = {
+			key: 'YOUR_GCAL_API_KEY',
+			maxResults: 12
+		}
+
+		$('#target-div').eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com', args);
 	});
 &lt;/script&gt;
 </pre>
+			<h2>Give it a whirl!</h2>
+			<p>Paste your calendar ID into the input below. If you haven't got one (or the energy to go get it), try this one <code>startupdigest.com_9ij8urq2vv011iqfopm652eeqo@group.calendar.google.com</code></p>
+			<label for="testID">GCal ID</label>
+			<input id="testID" type="text" placeholder="Paste your Google calendar ID in here">
 
-<h2>Give it a whirl!</h2>
-<p>Paste your calendar ID into the input below. If you haven't got one (or the energy to go get it), try this one <code>startupdigest.com_9ij8urq2vv011iqfopm652eeqo@group.calendar.google.com</code></p>
-<label for="testID">GCal ID</label>
-<input id="testID" type="text" placeholder="Paste your Google calendar ID in here">
 
-<div id="eventList"/>
-	<script>
-		$('#testID').on("change keyup paste", function(){
-			 	
-		 	var testID = $(this).val();
-			eventList(testID);
+			<div id="test-list"></div>
+			<script>
 
-		});
-	</script>
-</body>
-</html>
+				$(document).ready(function(){
+
+					args = {
+    					key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo',
+						maxResults: 12
+					}
+
+					$('#testID').on("change keyup paste", function(){
+						testID = $(this).val();
+						$('#test-list').eventList(testID, args);
+					});
+				});
+			</script>
+		</body>
+	</html>

@@ -8,18 +8,19 @@ eventList is a super-simple to use jQuery function for displaying a list of fort
 
 ## Easy peasy
 
-Getting eventList up and running is really easy.
+Getting eventList up and running is really really easy.
 
-1. Include the script in your head (you’ll need jQuery too of course.
-2. Add a div with the id="eventList"
-3. Run the function eventList();, passing in the ID for the publicly available Google calendar you would like to display.
+1. [Find your calendar ID in the calendar settings page.](https://support.google.com/calendar/answer/63962?hl=en) The calendar _must_ be publicly available.
+2. [Generate a Google Calender API key](https://console.developers.google.com/flows/enableapi?apiid=calendar)
+3. Include the script in your head (you’ll need jQuery too)
+4. Run the plugin on your desired target, passing in the ID for the publicly available Google calendar you would like to display.
 
 ```
-<div id="eventList"/>
+<div id="target-div"></div>
 
 <script>
 	$(document).ready(function(){
-	eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
+	 $('#target-div').eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
 	});
 </script>
 ```

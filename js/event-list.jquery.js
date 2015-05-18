@@ -80,48 +80,38 @@ function formatTime(hour, minutes){
 // Thanks to http://sajjadhossain.com/2008/10/31/javascript-string-trimming-and-padding/
 function pad(n){return n<10 ? '0'+n : n}
 
-var eventList = function (calID, args){
+$.fn.eventList = function(calID, args){
 
-  //Set some default paremeters. All of these can be overridden by passing an object with one or more of these properties
+  //Set some default parameters. All of these can be overridden by passing an object with one or more of these properties
   var defaults = {
-    eventListId: 'eventList',
-    orderby: 'starttime', 
-    sortorder: 'ascending', 
-    singleevents: true, 
-    "max-results": 12, 
-    futureevents: true, 
-    alt: 'json',
+    // orderby: 'starttime',
+    // singleevents: true,
+    maxResults: 8,
+    // key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo'
   }
 
   //Combine the parameters args and defaults
   var params = $.extend(true, defaults, args);
 
   //Delete parameters specific to this function in order to compose a query string
-  var queryStringParams = $.extend(true, {}, params);
-  delete queryStringParams.eventListId;
+  // var queryStringParams = $.extend(true, {}, params);
 
   //Serialize the parameters into a query string
-  var queryString = decodeURIComponent($.param(queryStringParams));
+  var queryString = decodeURIComponent($.param(params));
 
-  //Check if our container element exists. If not, exit the function
-  if(($('#' + params.eventListId)).length == 0){
-    return;
-  }
-
-  // Create the container elements for the list and feed links  
-  $('#' + params.eventListId).html('<ol class="events-list"><li>Nothing to see here!</li></ol><div class="feed-links"></div>');
+  // Create the container elements for the list and feed links
+  $(this).html('<ol class="events-list"><li>Nothing to see here!</li></ol><div class="feed-links"></div>');
 
   // All the feed strings
-  var calJSON = 'http://www.google.com/calendar/feeds/' + calID + "/public/full?" + queryString;
+  var calJSON = 'https://www.googleapis.com/calendar/v3/calendars/' + calID + '/events?' + queryString;
   var calGoog = 'http://www.google.com/calendar/embed?src=' + calID;
-  var calRSS =  'http://www.google.com/calendar/feeds/' + calID + '/public/full?' + queryString;
   var calICal = 'http://www.google.com/calendar/ical/' + calID + '/public/basic.ics';
   
   // Get list of upcoming iCal events formatted in JSON
   $.getJSON( calJSON, function(data){
 
   // Parse and render each event
-  $.each(data.feed.entry, function(i, item){
+  $.each(data.items, function(i, item){
 
     if(i == 0) {
       $(".events-list li").first().hide();
@@ -136,12 +126,12 @@ var eventList = function (calID, args){
 
 
     // set up the start date as a variable d
-    var d = new Date(item.gd$when[0].startTime);
+    var d = new Date(item.start.dateTime);
     var h = d.getHours();
     var m = d.getMinutes();
 
     // format as ISO 8601
-    var dISO = d.toISOString();
+    var dISO = d;
 
     // format a human readable version     
     var dString =   d_names[d.getDay()] + " " + formatDate(d.getDate()) + " " + m_names[d.getMonth()] + " " + d.getFullYear();
@@ -159,7 +149,7 @@ var eventList = function (calID, args){
     // Pull in the location
     // format a Google Maps link
 
-    var venue = item.gd$where[0].valueString;
+    var venue = item.location;
     var venueLink = '<a href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
 
 
@@ -167,8 +157,8 @@ var eventList = function (calID, args){
     // The Content
     // Event title and description 
 
-    var event_title  = '<h3 itemprop="name">' + item.title.$t + '</h3>';
-    var event_content = '<div class="event-description" itemprop="description">' + item.content.$t.autoLink() + '</div>';
+    var event_title  = '<h3 itemprop="name">' + item.summary + '</h3>';
+    var event_content = '<div class="event-description" itemprop="description">' + item.description.autoLink() + '</div>';
 
     // Render the event
     $(".events-list li").last().before(
@@ -190,9 +180,8 @@ var eventList = function (calID, args){
   // The Feed links
   // Appends links to the Google Calendar, RSS and iCal
 
-  var linkRSS  = '<a href="' + calRSS + '">' + 'RSS'  + '</a>';
-  var linkIcal = '<a href="' + calRSS + '">' + 'iCal' + '</a>';
+  var linkIcal = '<a href="' + calICal + '">' + 'iCal' + '</a>';
   var linkGcal = '<a href="' + calGoog + '">' + 'Google Calendar' + '</a>';
   
-  $('.feed-links').html(linkGcal + ' ' + linkRSS + ' ' + linkIcal);
+  $('.feed-links').html(linkGcal + ' | ' + linkIcal);
 }

@@ -1,0 +1,27 @@
+{
+  "name": "eventList.js",
+  "version": "1.2.0",
+  "homepage": "https://github.com/TheHeat/eventList.js",
+  "authors": [
+    "TheHeat <marc@properdesign.rs>"
+  ],
+  "description": "Render a list of events from a public Google Calendar",
+  "main": "js/event-list.jquery.js",
+  "keywords": [
+    "google",
+    "calendar",
+    "jquery",
+    "events"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jQuery": "~2.1.4"
+  }
+}
