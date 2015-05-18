@@ -37,45 +37,6 @@ function formatTime(hour, minutes){
   }
 }
 
-
-// Autolink finds and formats links in specified strings
-// It is cool and made by Bryan Woods
-// https://github.com/bryanwoods/autolink-js
-(function() {
-  var autoLink,
-    __slice = [].slice;
-
-  autoLink = function() {
-    var k, linkAttributes, option, options, pattern, v;
-    options = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-    pattern = /(^|\s)((?:https?|ftp):\/\/[\-A-Z0-9+\u0026@#\/%?=~_|!:,.;]*[\-A-Z0-9+\u0026@#\/%=~_|])/gi;
-    if (!(options.length > 0)) {
-      return this.replace(pattern, "$1<a href='$2'>$2</a>");
-    }
-    option = options[0];
-    linkAttributes = ((function() {
-      var _results;
-      _results = [];
-      for (k in option) {
-        v = option[k];
-        if (k !== 'callback') {
-          _results.push(" " + k + "='" + v + "'");
-        }
-      }
-      return _results;
-    })()).join('');
-    return this.replace(pattern, function(match, space, url) {
-      var link;
-      link = (typeof option.callback === "function" ? option.callback(url) : void 0) || ("<a href='" + url + "'" + linkAttributes + ">" + url + "</a>");
-      return "" + space + link;
-    });
-  };
-
-  String.prototype['autoLink'] = autoLink;
-
-}).call(this);
-
-
 // Utility method to pad a string on the left
 // Thanks to http://sajjadhossain.com/2008/10/31/javascript-string-trimming-and-padding/
 function pad(n){return n<10 ? '0'+n : n}
@@ -84,20 +45,23 @@ $.fn.eventList = function(calID, args){
 
   //Set some default parameters. All of these can be overridden by passing an object with one or more of these properties
   var defaults = {
-    // orderby: 'starttime',
-    // singleevents: true,
     maxResults: 8,
+    autolink: true,
     // key: ''
   }
 
   //Combine the parameters args and defaults
   var params = $.extend(true, defaults, args);
 
+  linkContent = params.autolink;
+  console.log(linkContent);
+
   //Delete parameters specific to this function in order to compose a query string
-  // var queryStringParams = $.extend(true, {}, params);
+  var queryStringParams = $.extend(true, {}, params);
+  delete queryStringParams.autolink;
 
   //Serialize the parameters into a query string
-  var queryString = decodeURIComponent($.param(params));
+  var queryString = decodeURIComponent($.param(queryStringParams));
 
   // Create the container elements for the list and feed links
   $(this).html('<ol class="events-list"><li>Nothing to see here!</li></ol><div class="feed-links"></div>');
@@ -153,19 +117,25 @@ $.fn.eventList = function(calID, args){
     var venueLink = '<a href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
 
 
+    if(linkContent === true){
+      eventDescription = item.description.autoLink();
+    }else{
+      eventDescription = item.description;
+    }
+
     // **********************
     // The Content
     // Event title and description 
 
     var event_title  = '<h3 itemprop="name">' + item.summary + '</h3>';
-    var event_content = '<div class="event-description" itemprop="description">' + item.description.autoLink() + '</div>';
+    var event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
 
     // Render the event
     $(".events-list li").last().before(
         '<li itemscope itemtype="http://schema.org/Event">' +
         '<meta itemprop="startDate" content="' + dISO  + '">' +
         '<time datetime="' + dISO + '">' + dString + '</time>' +
-        event_title + 
+        event_title +
         event_content +
         tString + 
         venueLink +

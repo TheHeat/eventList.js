@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<title>calFeed.js</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="bower_components/autolink/autolink.js"></script>
 		<script src="js/event-list.jquery.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
 		<style>
@@ -58,7 +59,8 @@
 
 					args = {
     					key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo',
-						maxResults: 12
+						maxResults: 12,
+						//autolink: true/false
 					}
 
 					$('#testID').on("change keyup paste", function(){
