@@ -87,7 +87,7 @@ $.fn.eventList = function(calID, args){
     // orderby: 'starttime',
     // singleevents: true,
     maxResults: 8,
-    // key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo'
+    // key: ''
   }
 
   //Combine the parameters args and defaults
