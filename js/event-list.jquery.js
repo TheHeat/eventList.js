@@ -98,13 +98,18 @@ $.fn.eventList = function(calID, args){
     var dISO = d;
 
     // format a human readable version     
-    var dString =   d_names[d.getDay()] + " " + formatDate(d.getDate()) + " " + m_names[d.getMonth()] + " " + d.getFullYear();
+    var dFormat =   d_names[d.getDay()] + " " + formatDate(d.getDate()) + " " + m_names[d.getMonth()] + " " + d.getFullYear();
+
+
+    var dString = '<time class="event-date" datetime="' + dISO + '">' + dFormat + '</time>';
+
 
     // Format the time
     var tString = "";
 
     if(d.getHours() != 0 || d.getMinutes() != 0) {
-      tString = formatTime(h, m);
+      tFormat = formatTime(h, m);
+      tString = '<span class="event-time">' + tFormat + '</span>';
     };
 
 
@@ -114,7 +119,7 @@ $.fn.eventList = function(calID, args){
     // format a Google Maps link
 
     var venue = item.location;
-    var venueLink = '<a href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
+    var venueLink = '<a class="event-venue" href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
 
 
     if(linkContent === true){
@@ -127,17 +132,18 @@ $.fn.eventList = function(calID, args){
     // The Content
     // Event title and description 
 
-    var event_title  = '<h3 itemprop="name">' + item.summary + '</h3>';
+    var event_title  = '<h3 class="event-title" itemprop="name">' + item.summary + '</h3>';
     var event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
 
     // Render the event
     $(".events-list li").last().before(
+
         '<li itemscope itemtype="http://schema.org/Event">' +
         '<meta itemprop="startDate" content="' + dISO  + '">' +
-        '<time datetime="' + dISO + '">' + dString + '</time>' +
+        dString +
         event_title +
         event_content +
-        tString + 
+        tString +
         venueLink +
         "</li>"
     );
