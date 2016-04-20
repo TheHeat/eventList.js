@@ -12,7 +12,7 @@ Getting eventList up and running is really really easy.
 
 1. [Find your calendar ID in the calendar settings page.](https://support.google.com/calendar/answer/63962?hl=en) The calendar _must_ be publicly available.
 2. [Generate a Google Calender API key](https://console.developers.google.com/flows/enableapi?apiid=calendar)
-3. Include the script in your head (you’ll need jQuery too)
+3. Include the script in your head (you’ll need jQuery and [Autolinker.js](https://github.com/gregjacobs/Autolinker.js) too)
 4. Run the plugin on your desired target, passing in the ID for the publicly available Google calendar you would like to display.
 
 ```
