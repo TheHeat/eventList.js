@@ -1,80 +1,95 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Eventlist.js by TheHeat</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<head>
+		<meta charset="UTF-8">
+		<title>eventList.js</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="bower_components/autolink/autolink.js"></script>
+		<script src="js/event-list.jquery.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+		<style>
+			body{
+				padding:1em;
+			}
+			pre{
+				padding:1em;
+				background-color: #1B2662;
+				color:#E1F920;
+			}
+			.events-list{
+				list-style: none;
+				padding: 0;
+			}
+			.events-list li{
+				padding-bottom: 1em;
+				border-bottom: solid thin;
+				margin-bottom: 1em;
+			}
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/TheHeat/eventList.js">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/TheHeat/eventList.js/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/TheHeat/eventList.js/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Eventlist.js</h1>
-          <p>List well formatted events from a publicly shared Google calendar.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/TheHeat">TheHeat</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <p>eventList is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.</p>
-
-<h2>
-<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
-
-<ul>
-<li>Events are marked up as <a href="http://schema.org">schema.org</a> events, including ISO 8601 timestamps and whatnot</li>
-<li>eventList generates feed links below the events list</li>
-<li>The list is completely unstyled (feature not a bug)</li>
-</ul><h2>
-<a name="easy-peasy" class="anchor" href="#easy-peasy"><span class="octicon octicon-link"></span></a>Easy peasy</h2>
-
-<p>Getting eventList up and running is really easy.</p>
-
-<ol>
-<li>Include the script in your head (you’ll need jQuery too of course.</li>
-<li>Add a div with the id="eventList"</li>
-<li>Run the function eventList();, passing in the ID for the publicly available Google calendar you would like to display.</li>
-</ol><pre><code>&lt;div id="eventList"/&gt;
-
+		</style>
+	</head>
+	<body>
+		<h1>eventList.js Demo</h1>
+		<p>eventList.js is a super-simple to use jQuery function for displaying a list of forthcoming events on your page.</p>
+		<h2>Easy peasy</h2>
+		<p>Getting eventList.js up and running is really easy.</p>
+		<ul>
+			<li>
+				<a href="https://support.google.com/calendar/answer/63962?hl=en">Find your calendar ID in the calendar settings page.</a> The calendar <strong>must</strong> be publicly available.
+			</li>
+			<li><a href="https://console.developers.google.com/flows/enableapi?apiid=calendar">Generate a Google Calender API key</a></li>
+			<li>Include the script in your head (you&rsquo;ll need jQuery too obvs).</li>
+			<li>Extend the target object <code>.eventList();</code>, passing in
+				<a href="https://support.google.com/calendar/answer/63962?hl=en">the ID for a publicly available Google calendar</a> you would like to display.</li>
+			</ul>
+<pre>
+&lt;div id="target-div"/&gt;
 &lt;script&gt;
-    $(document).ready(function(){
-    eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
-    });
+	$(document).ready(function(){
+
+		args = {
+			key: 'YOUR_GCAL_API_KEY',
+			calID: 'YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com',
+			maxResults: 12
+		}
+
+		$('#target-div').eventList(args);
+	});
 &lt;/script&gt;
-</code></pre>
+</pre>
+			<h2>Give it a whirl!</h2>
+			<p>Paste your calendar ID into the input below.</p>
+			<p>
+			<button id="test-cal" value="startupdigest.com_9ij8urq2vv011iqfopm652eeqo@group.calendar.google.com">If you haven't got one (or the energy to go get it) try this one</button>
+			</p>
 
-<h3>
-<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h3>
+			<label for="testID">GCal ID</label>
+			<input id="testID" type="text" placeholder="Paste your Google calendar ID in here">
 
-<p>The original version of this file was inspired by <a href="http://kevin.deldycke.com/2012/07/displaying-upcoming-events-google-calendar-javascript/">this post by Kevin Deldycke</a></p>
+			<div id="test-list"></div>
+			<script>
 
-<p>I've included <a href="https://github.com/bryanwoods/autolink-js">autoLink.js</a> which finds and formats links in specified strings. It is cool and made by Bryan Woods.</p>
-      </section>
+				$(document).ready(function(){
 
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
-</html>
+					function updateCal(ID){
+						args = {
+							calID: ID,
+    					key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo'
+						}
+						$('#test-list').eventList(args);
+					}
+
+					$('#test-cal').click(function(){
+						tester = $(this).val();
+						$('#testID').val(tester);
+						updateCal(tester);
+					});
+
+					$('#testID').on("change keyup paste", function(){
+						testID = $(this).val();
+						updateCal(testID);
+					});
+				});
+			</script>
+		</body>
+	</html>

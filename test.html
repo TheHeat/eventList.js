@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>calFeed.js</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="bower_components/autolink/autolink.js"></script>
+		<script src="js/event-list.jquery.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+		<style>
+			body{
+				padding:1em;
+			}
+			pre{
+				padding:1em;
+				background-color: #1B2662;
+				color:#E1F920;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>calFeed.js Demo</h1>
+
+		<div id="test-list"></div>
+			<script>
+
+				$(document).ready(function(){
+
+					args = {
+						calID: 		'2pm7o8esmeo2dd7b9a549a2jus@group.calendar.google.com',
+    				key: 			'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo',
+    				autolink: true
+					}
+
+					$('#test-list').eventList(args);
+				});
+			</script>
+		</body>
+	</html>
