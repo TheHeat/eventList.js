@@ -35,6 +35,6 @@ Getting eventList up and running is really really easy.
 
 ### Credits
 
-The original version of this file was inspired by [this post by Kevin Deldycke] (http://kevin.deldycke.com/2012/07/displaying-upcoming-events-google-calendar-javascript/)
+The original version of this script was inspired by [this post by Kevin Deldycke] (http://kevin.deldycke.com/2012/07/displaying-upcoming-events-google-calendar-javascript/)
 
-I've included [autoLink.js] (https://github.com/bryanwoods/autolink-js) which finds and formats links in specified strings. It is very cool; thanks Bryan Woods!
+I've included [Autolinker.js](https://github.com/gregjacobs/Autolinker.js) as a dependency which finds and formats links, Twitter handles and all manner of things in strings. It is very cool.

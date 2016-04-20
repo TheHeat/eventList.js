@@ -120,8 +120,6 @@ $.fn.eventList = function(args){
       var d = new Date(item.start.date);
     }
 
-    console.log(d);
-
     // format as ISO 8601
     var dISO = d;
 
@@ -163,7 +161,7 @@ $.fn.eventList = function(args){
     var eventDescription = item.description;
 
     if(linkContent){
-      eventDescription = eventDescription.autoLink();
+      eventDescription = Autolinker.link(eventDescription);
     }
 
     if(eventDescription){
