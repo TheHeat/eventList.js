@@ -23,6 +23,6 @@
   ],
   "dependencies": {
     "jQuery": "~2.1.4",
-    "autolink" : "https://github.com/bryanwoods/autolink-js.git"
+    "Autolinker.js": "~0.26.0"
   }
 }
