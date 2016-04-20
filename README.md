@@ -20,7 +20,15 @@ Getting eventList up and running is really really easy.
 
 <script>
 	$(document).ready(function(){
-	 $('#target-div').eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com');
+
+    args = {
+      key: 'YOUR_GCAL_API_KEY',
+      calID: 'YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com',
+      maxResults: 12
+    }
+
+    $('#target-div').eventList(args);
+
 	});
 </script>
 ```
@@ -29,4 +37,4 @@ Getting eventList up and running is really really easy.
 
 The original version of this file was inspired by [this post by Kevin Deldycke] (http://kevin.deldycke.com/2012/07/displaying-upcoming-events-google-calendar-javascript/)
 
-I've included [autoLink.js] (https://github.com/bryanwoods/autolink-js) which finds and formats links in specified strings. It is cool and made by Bryan Woods.
+I've included [autoLink.js] (https://github.com/bryanwoods/autolink-js) which finds and formats links in specified strings. It is very cool; thanks Bryan Woods!
