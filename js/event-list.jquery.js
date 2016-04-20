@@ -39,10 +39,18 @@ function formatDate(dateNumber){
 // Bump 24h clock down to 12h am/pm
 function formatTime(hour, minutes){
 
+  // I hate seeing empty zeroes in a time.
+  // Just give me 9am
+  if(minutes){
+    minutesFormat = ':' + pad(minutes);
+  }else{
+    minutesFormat = '';
+  }
+
   if(hour < 12){
-    return hour + ":" + pad(minutes) + "am";
+    return hour + minutesFormat + 'am';
   }else {
-    return (hour - 12) + ":" + pad(minutes) + "pm";
+    return (hour - 12) + minutesFormat + 'pm';
   }
 }
 
@@ -56,7 +64,8 @@ $.fn.eventList = function(args){
   var defaults = {
     timeMin: nowISO(),
     singleEvents: true,
-    orderBy: 'startTime'
+    orderBy: 'startTime',
+    linkContent: true
   }
 
   //Combine the parameters args and defaults
@@ -65,12 +74,12 @@ $.fn.eventList = function(args){
 
   // set variables from the arguments
   calID = params.calID;
-  linkContent = params.autolink;
+  linkContent = params.linkContent;
 
   var queryStringParams = params;
   //Delete parameters specific to this function in order to compose a query string
   delete queryStringParams.calID;
-  delete queryStringParams.autolink;
+  delete queryStringParams.linkContent;
 
   //Serialize the parameters into a query string
   var queryString = $.param(queryStringParams);
@@ -82,6 +91,8 @@ $.fn.eventList = function(args){
   var calJSON = 'https://www.googleapis.com/calendar/v3/calendars/' + calID + '/events?' + queryString;
   var calGoog = 'http://www.google.com/calendar/embed?src=' + calID;
   var calICal = 'http://www.google.com/calendar/ical/' + calID + '/public/basic.ics';
+
+  console.log(calJSON);
 
   // Get list of iCal events formatted in JSON
   $.getJSON( calJSON, function(data){
@@ -100,11 +111,16 @@ $.fn.eventList = function(args){
     // format as ISO 8601
     // format a human readable version
 
+    if(item.start.dateTime){
+      // set up the start date as a variable d
+      var d = new Date(item.start.dateTime);
+      var h = d.getHours();
+      var m = d.getMinutes();
+    }else if(item.start.date){
+      var d = new Date(item.start.date);
+    }
 
-    // set up the start date as a variable d
-    var d = new Date(item.start.dateTime);
-    var h = d.getHours();
-    var m = d.getMinutes();
+    console.log(d);
 
     // format as ISO 8601
     var dISO = d;
@@ -119,7 +135,8 @@ $.fn.eventList = function(args){
     // Format the time
     var tString = "";
 
-    if(d.getHours() != 0 || d.getMinutes() != 0) {
+    if(h || m) {
+
       tFormat = formatTime(h, m);
       tString = '<span class="event-time">' + tFormat + '</span>';
     };
@@ -131,20 +148,26 @@ $.fn.eventList = function(args){
     // format a Google Maps link
 
     var venue = item.location;
-    var venueLink = '<a class="event-venue" href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
+    var venueLink ='';
 
-    eventDescription = item.description;
+    if(venue){
+      venueLink = '<a class="event-venue" href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
+    }
+
 
     // **********************
     // The Content
     // Event title and description 
 
     var event_title  = '<h3 class="event-title" itemprop="name">' + item.summary + '</h3>';
-    
+    var eventDescription = item.description;
+
+    if(linkContent){
+      eventDescription = eventDescription.autoLink();
+    }
+
     if(eventDescription){
-      var event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
-    }else{
-      var event_content = '';
+      event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
     }
 
     // Render the event

@@ -16,6 +16,16 @@
 				background-color: #1B2662;
 				color:#E1F920;
 			}
+			.events-list{
+				list-style: none;
+				padding: 0;
+			}
+			.events-list li{
+				padding-bottom: 1em;
+				border-bottom: solid thin;
+				margin-bottom: 1em;
+			}
+
 		</style>
 	</head>
 	<body>
@@ -39,33 +49,45 @@
 
 		args = {
 			key: 'YOUR_GCAL_API_KEY',
+			calID: 'YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com',
 			maxResults: 12
 		}
 
-		$('#target-div').eventList('YOUR_GOOGLE_CALENDAR_ID@group.calendar.google.com', args);
+		$('#target-div').eventList(args);
 	});
 &lt;/script&gt;
 </pre>
 			<h2>Give it a whirl!</h2>
-			<p>Paste your calendar ID into the input below. If you haven't got one (or the energy to go get it), try this one <code>startupdigest.com_9ij8urq2vv011iqfopm652eeqo@group.calendar.google.com</code></p>
+			<p>Paste your calendar ID into the input below.</p>
+			<p>
+			<button id="test-cal" value="startupdigest.com_9ij8urq2vv011iqfopm652eeqo@group.calendar.google.com">If you haven't got one (or the energy to go get it) try this one</button>
+			</p>
+
 			<label for="testID">GCal ID</label>
 			<input id="testID" type="text" placeholder="Paste your Google calendar ID in here">
-
 
 			<div id="test-list"></div>
 			<script>
 
 				$(document).ready(function(){
 
-					args = {
-    					key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo',
-						maxResults: 12,
-						//autolink: true/false
+					function updateCal(ID){
+						args = {
+							calID: ID,
+    					key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo'
+						}
+						$('#test-list').eventList(args);
 					}
+
+					$('#test-cal').click(function(){
+						tester = $(this).val();
+						$('#testID').val(tester);
+						updateCal(tester);
+					});
 
 					$('#testID').on("change keyup paste", function(){
 						testID = $(this).val();
-						$('#test-list').eventList(testID, args);
+						updateCal(testID);
 					});
 				});
 			</script>
