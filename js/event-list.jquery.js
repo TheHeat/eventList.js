@@ -7,6 +7,16 @@
 // Functions and helpers
 
 
+// Get an ISO formatted string representing 'now'
+
+function nowISO(){
+  
+  var d = new Date();
+  var n = d.toISOString();
+
+  return n;
+} 
+
 // Day and Month name formatting helpers
 var d_names = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 var m_names = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
@@ -26,7 +36,6 @@ function formatDate(dateNumber){
   return dateNumber + append;
 }
 
-
 // Bump 24h clock down to 12h am/pm
 function formatTime(hour, minutes){
 
@@ -41,37 +50,40 @@ function formatTime(hour, minutes){
 // Thanks to http://sajjadhossain.com/2008/10/31/javascript-string-trimming-and-padding/
 function pad(n){return n<10 ? '0'+n : n}
 
-$.fn.eventList = function(calID, args){
+$.fn.eventList = function(args){
 
   //Set some default parameters. All of these can be overridden by passing an object with one or more of these properties
   var defaults = {
-    maxResults: 8,
-    autolink: true,
-    // key: ''
+    timeMin: nowISO(),
+    singleEvents: true,
+    orderBy: 'startTime'
   }
 
   //Combine the parameters args and defaults
-  var params = $.extend(true, defaults, args);
+  var params = $.extend({}, defaults, args);
+  console.log('PARAMS: ', params);
 
+  // set variables from the arguments
+  calID = params.calID;
   linkContent = params.autolink;
-  console.log(linkContent);
 
+  var queryStringParams = params;
   //Delete parameters specific to this function in order to compose a query string
-  var queryStringParams = $.extend(true, {}, params);
+  delete queryStringParams.calID;
   delete queryStringParams.autolink;
 
   //Serialize the parameters into a query string
-  var queryString = decodeURIComponent($.param(queryStringParams));
+  var queryString = $.param(queryStringParams);
 
-  // Create the container elements for the list and feed links
+  // Create the container elements for the list and feed links§
   $(this).html('<ol class="events-list"><li>Nothing to see here!</li></ol><div class="feed-links"></div>');
 
   // All the feed strings
   var calJSON = 'https://www.googleapis.com/calendar/v3/calendars/' + calID + '/events?' + queryString;
   var calGoog = 'http://www.google.com/calendar/embed?src=' + calID;
   var calICal = 'http://www.google.com/calendar/ical/' + calID + '/public/basic.ics';
-  
-  // Get list of upcoming iCal events formatted in JSON
+
+  // Get list of iCal events formatted in JSON
   $.getJSON( calJSON, function(data){
 
   // Parse and render each event
@@ -121,19 +133,19 @@ $.fn.eventList = function(calID, args){
     var venue = item.location;
     var venueLink = '<a class="event-venue" href="http://maps.google.com/maps?q=' + venue + '"target="_blank">' + venue + '</a>';
 
-
-    if(linkContent === true){
-      eventDescription = item.description.autoLink();
-    }else{
-      eventDescription = item.description;
-    }
+    eventDescription = item.description;
 
     // **********************
     // The Content
     // Event title and description 
 
     var event_title  = '<h3 class="event-title" itemprop="name">' + item.summary + '</h3>';
-    var event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
+    
+    if(eventDescription){
+      var event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
+    }else{
+      var event_content = '';
+    }
 
     // Render the event
     $(".events-list li").last().before(
