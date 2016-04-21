@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>calFeed.js</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="bower_components/autolink/autolink.js"></script>
+		<script src="bower_components/Autolinker.js/dist/Autolinker.min.js"></script>
 		<script src="js/event-list.jquery.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
 		<style>
@@ -27,11 +27,9 @@
 				$(document).ready(function(){
 
 					args = {
-						calID: 		'2pm7o8esmeo2dd7b9a549a2jus@group.calendar.google.com',
-    				key: 			'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo',
-    				autolink: true
-					}
-
+							calID: '2pm7o8esmeo2dd7b9a549a2jus@group.calendar.google.com',
+    					key: 'AIzaSyBvhAR22OCPdXf46brVynlPXp2V40sneDo'
+						}
 					$('#test-list').eventList(args);
 				});
 			</script>

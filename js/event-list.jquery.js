@@ -166,6 +166,8 @@ $.fn.eventList = function(args){
 
     if(eventDescription){
       event_content = '<div class="event-description" itemprop="description">' + eventDescription + '</div>';
+    }else{
+      event_content = '';
     }
 
     // Render the event
